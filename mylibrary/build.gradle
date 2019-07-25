@@ -1,0 +1,54 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.cpdroid.fat-aar'
+
+android {
+    libraryVariants
+    compileSdkVersion 28
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    flavorDimensions "channel"
+    productFlavors {
+        free {
+            dimension "channel"
+        }
+        pay {
+            dimension "channel"
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    embedded fileTree(dir: 'libs', include: ['*.aar'])
+    embedded project(':moduleA')
+    embedded 'com.blankj:utilcode:1.23.7'
+}
+
+//Copy generated aar file to "app/libs" directory, just for debug
+afterEvaluate {
+    android.libraryVariants.all {
+
+        String flavorBuildType = it.name.capitalize()
+        task("deploy${flavorBuildType}", type: Copy, dependsOn: tasks."assemble${flavorBuildType}", group: 'deploy') {
+            from "$buildDir/outputs/aar"
+            include "*.aar"
+            into "$rootDir/app/libs"
+        }
+    }
+}

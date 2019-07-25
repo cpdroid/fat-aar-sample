@@ -1,0 +1,4 @@
+include ':app', ':mylibrary', ':moduleA', ':localModule'
+
+//just for debug
+//includeFlat 'fat-aar'

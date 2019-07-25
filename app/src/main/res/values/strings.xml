@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">FatAarSample</string>
+    <string name="start_main_library_activity">Library Activity</string>
+    <string name="start_module_a_activity">Module A Activity</string>
+    <string name="start_local_module_activity">Local Module Activity</string>
+    <string name="embed_module_a_success">Module A has been embedded successfully</string>
+    <string name="embed_local_module_success">Local Module has been embedded successfully</string>
+</resources>
