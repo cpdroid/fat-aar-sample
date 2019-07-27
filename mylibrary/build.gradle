@@ -46,6 +46,7 @@ afterEvaluate {
 
         String flavorBuildType = it.name.capitalize()
         task("deploy${flavorBuildType}", type: Copy, dependsOn: tasks."assemble${flavorBuildType}", group: 'deploy') {
+            delete "$buildDir/outputs/aar"
             from "$buildDir/outputs/aar"
             include "*.aar"
             into "$rootDir/app/libs"
