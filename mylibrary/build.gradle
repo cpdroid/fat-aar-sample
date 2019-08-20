@@ -44,8 +44,13 @@ afterEvaluate {
     android.libraryVariants.all {
 
         String flavorBuildType = it.name.capitalize()
-        task("deploy${flavorBuildType}", type: Copy, dependsOn: tasks."assemble${flavorBuildType}", group: 'deploy') {
+        task("delete${flavorBuildType}OutputAar").doLast {
             delete "$buildDir/outputs/aar"
+        }
+
+        tasks."bundle${flavorBuildType}Aar".dependsOn(tasks."delete${flavorBuildType}OutputAar")
+
+        task("deploy${flavorBuildType}", type: Copy, dependsOn: tasks."assemble${flavorBuildType}", group: 'deploy') {
             from "$buildDir/outputs/aar"
             include "*.aar"
             into "$rootDir/app/libs"
